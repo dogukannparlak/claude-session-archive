@@ -90,9 +90,9 @@ session-archive
 
 ## Protect sessions from automatic cleanup
 
-Claude Code deletes old transcripts on its own (the `cleanupPeriodDays` setting; the default is,
-to my knowledge, 30 days, so check the Claude Code docs for your version). The setting is
-global: it cannot spare only the sessions you started from the desktop app.
+Claude Code deletes old transcripts on its own after a retention period (the `cleanupPeriodDays`
+setting; check the Claude Code docs for the default of your version). The setting is global: it
+cannot spare only the sessions you started from the desktop app.
 
 `session-archive backup` copies the desktop-app sessions to a folder Claude Code never touches.
 It **only adds or refreshes files and never deletes anything**, so a transcript survives even after
@@ -105,9 +105,10 @@ session-archive backup --dest ~/safe      # choose the folder
 session-archive backup --all              # terminal sessions too
 ```
 
-"App sessions" are records with `entrypoint: claude-desktop` plus sessions the app's own index lists as started there (sessions it merely
-*adopted* from the terminal or VS Code are skipped; use `--all` for those). Then browse live and backed-up sessions together (duplicates are merged,
-the bigger file wins):
+"App sessions" are records with `entrypoint: claude-desktop` plus sessions the app's own index lists
+as started there (sessions it merely *adopted* from the terminal or VS Code are skipped; use `--all`
+for those). Then browse live and backed-up sessions together (duplicates are merged, the bigger file
+wins):
 
 ```bash
 session-archive --projects-dir ~/.claude/projects --projects-dir ~/Documents/claude-session-backup/projects

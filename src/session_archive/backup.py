@@ -9,7 +9,9 @@ Which sessions count as "app" sessions:
 
 * records whose ``entrypoint`` is ``claude-desktop`` (the desktop app's Code tab), and
 * sessions listed in the desktop app's own index (``local_*.json`` files holding a
-  ``cliSessionId``), if that index can be found.
+  ``cliSessionId``), if that index can be found. The app also *adopts* terminal and VS Code
+  sessions into that index (``adoptedFromOtherSurface: true``); those are not app sessions and
+  are skipped.
 
 Use ``include_all=True`` to back up every session, terminal ones included.
 """
@@ -33,17 +35,19 @@ def default_backup_dir():
 
 
 def indexed_session_ids(index_root):
-    """Transcript ids referenced by the desktop app's session index."""
+    """Transcript ids of sessions that were *started* in the desktop app, per its session index."""
     ids = set()
     if not index_root or not Path(index_root).is_dir():
         return ids
     for path in Path(index_root).rglob("local_*.json"):
         try:
             with open(path, encoding="utf-8") as f:
-                cli_id = json.load(f).get("cliSessionId")
+                entry = json.load(f)
+            cli_id = entry.get("cliSessionId")
+            adopted = entry.get("adoptedFromOtherSurface")
         except (OSError, ValueError, AttributeError):
             continue
-        if cli_id:
+        if cli_id and not adopted:
             ids.add(cli_id)
     return ids
 

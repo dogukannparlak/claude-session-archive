@@ -84,8 +84,8 @@ session-archive backup --dest ~/safe      # choose the folder
 session-archive backup --all              # terminal sessions too
 ```
 
-"App sessions" are records with `entrypoint: claude-desktop` plus the sessions listed in the
-desktop app's own index. Then browse live and backed-up sessions together (duplicates are merged,
+"App sessions" are records with `entrypoint: claude-desktop` plus sessions the app's own index lists as started there (sessions it merely
+*adopted* from the terminal or VS Code are skipped; use `--all` for those). Then browse live and backed-up sessions together (duplicates are merged,
 the bigger file wins):
 
 ```bash

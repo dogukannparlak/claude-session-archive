@@ -40,6 +40,12 @@ class BackupTests(unittest.TestCase):
         backup.backup(self.src, self.dest, index_root=self.index)
         self.assertEqual(self.names(self.dest), sorted([SESSION_ID, OTHER_ID]))
 
+    def test_sessions_adopted_from_terminal_or_vscode_are_not_app_sessions(self):
+        self.index.mkdir()
+        (self.index / "local_adopted.json").write_text(json.dumps({"cliSessionId": OTHER_ID, "adoptedFromOtherSurface": True}))
+        backup.backup(self.src, self.dest, index_root=self.index)
+        self.assertEqual(self.names(self.dest), [SESSION_ID])
+
     def test_all_flag_includes_terminal_sessions(self):
         backup.backup(self.src, self.dest, include_all=True)
         self.assertEqual(self.names(self.dest), sorted([SESSION_ID, OTHER_ID, THIRD_ID]))

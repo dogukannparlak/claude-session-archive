@@ -28,7 +28,7 @@ session without resuming it. Session Archive fills that gap.
   under a "not written by you" note instead of looking like your messages.
 - **An icon for where each session started**, plus a source filter:
 
-  These are the defaults: you can add, remove or restyle sources (see [Configuration](#configuration)).
+  Hide any of them with `on`/`off`, or give a folder its own icon (see [Configuration](#configuration)).
 
   | Icon | Source | How it is detected |
   |---|---|---|
@@ -74,17 +74,22 @@ session-archive
 
 ### Configuration
 
-Everything has a default. To use other folders, add or remove source icons, or define your own
-(label, builtin icon or your own SVG/PNG, and rules on entrypoint and working directory), use a
-`.env` file and/or a `session-archive.json`:
+Nothing is required. To change a port, a folder, hide an icon or give a folder its own icon, copy
+the example and edit it. Values are as easy as `on`/`off`, a number or a path:
 
 ```bash
-cp .env.example .env                             # ports and paths
-session-archive print-config > session-archive.json   # paths and the list of sources
+cp .env.example .env
 ```
 
-Precedence: flag > environment > `.env` > config file > default. Full reference, with examples:
-[docs/CONFIGURATION.md](docs/CONFIGURATION.md).
+```ini
+PORT=9000
+OPEN_BROWSER=off
+CLAUDE_FOLDERS=~/.claude/projects, ~/Documents/claude-backup/projects
+SHOW_VSCODE=off
+FOLDER_ICONS=~/work=server, ~/Documents/client-x=./icons/client-x.svg
+```
+
+Every setting, with examples: [docs/CONFIGURATION.md](docs/CONFIGURATION.md).
 
 ### Options
 
@@ -92,9 +97,8 @@ Precedence: flag > environment > `.env` > config file > default. Full reference,
 |---|---|
 | `--port N` | Port to listen on (default `8765`) |
 | `--projects-dir PATH` | Transcript folder; repeat to add a backup folder. Default: `$CLAUDE_CONFIG_DIR/projects`, else `~/.claude/projects` |
-| `print-config` (command) | Print a complete config file with every default |
 | `--no-open` | Don't open the browser automatically |
-| `--config PATH`, `--env-file PATH` | Config file / `.env` to use (see [Configuration](#configuration)) |
+| `--env-file PATH` | Settings file to use instead of `./.env` (see [Configuration](#configuration)) |
 | `--version` | Print the version |
 
 ### Keyboard

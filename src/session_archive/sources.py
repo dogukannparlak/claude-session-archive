@@ -2,9 +2,9 @@
 
 Claude Code records an ``entrypoint`` on every transcript record, and every record carries its
 working directory (``cwd``). A *source* is a named rule over those two facts; the first rule that
-matches wins, so order is priority. The built-in rules (:data:`DEFAULT_SOURCES`) can be replaced,
-extended or trimmed from the config file (see ``config.py``); a session that matches nothing is
-``other``, which always exists.
+matches wins, so order is priority. The built-in rules (:data:`DEFAULT_SOURCES`) are switched on/off
+with ``SHOW_*`` and extended with ``FOLDER_ICONS`` in ``.env`` (see ``config.py``); a session that
+matches nothing is ``other``, which always exists.
 
 Rule fields (all inside ``match``; every given field must hold, list items are alternatives):
 
@@ -100,9 +100,9 @@ def _strings(value, where):
 
 
 def parse_sources(raw, base_dir=None):
-    """Validate a list of source definitions (as in the config file) into :class:`SourceRule` s.
+    """Validate a list of source definitions into :class:`SourceRule` s.
 
-    ``base_dir`` resolves relative ``icon_file`` paths (normally the config file's folder).
+    ``base_dir`` resolves relative ``icon_file`` paths (normally the folder of the .env file).
     The fallback ``other`` source is appended automatically.
     """
     if not isinstance(raw, list):

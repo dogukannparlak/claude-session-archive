@@ -1,129 +1,63 @@
 # Yapılandırma
 
-Hiçbir ayar yapmadan çalışır. Kurulumunuz farklıysa (başka klasörler, başka araçlar, ek kaynaklar)
-üç yerden değiştirebilirsiniz. [English](CONFIGURATION.md)
-
-| Katman | Dosya | Ne için |
-|---|---|---|
-| Komut satırı | `--port`, `--projects-dir` gibi bayraklar | tek seferlik çalıştırma |
-| Ortam | gerçek değişkenler ya da `.env` dosyası (`.env.example`) | makineye özel yol ve port |
-| Config dosyası | `session-archive.json` (`session-archive.example.json`) | yollar **ve** kaynak/ikon listesi |
-
-Her ayar için öncelik: **bayrak > ortam > `.env` > config dosyası > varsayılan**.
-
-## Config dosyası nerede aranır
-
-İlk bulunan geçerlidir: `--config YOL`, `$SESSION_ARCHIVE_CONFIG`, `./session-archive.json`,
-`$XDG_CONFIG_HOME/session-archive/config.json` (`~/.config/...`). Kullanılan dosyanın yolu başlarken
-yazılır. `.env` geçerli klasörden okunur (ya da `--env-file YOL`). `session-archive.json` ve `.env`
-git'e girmez; `*.example` dosyaları girer.
-
-Tüm varsayılanları yazılı bir dosya üretmek için:
+Tek küçük dosya: **`.env`**. Örneği kopyalayın, gerekeni değiştirin. Hiçbir şey zorunlu değil.
 
 ```bash
-session-archive print-config > session-archive.json
+cp .env.example .env
 ```
 
-Bilinmeyen anahtarlar hatadır (yazım hataları sessizce geçmesin); `_` ile başlayan anahtarlar
-yok sayılır, yorum için kullanın (`"_comment": "..."`). Göreli yollar config dosyasına görelidir.
+Değerleri kolay yazın: `on` / `off`, bir sayı ya da klasör/dosya yolu (`~` çalışır; birden çok yol
+virgülle ayrılır). Varsayılan için satırı silin. [English](CONFIGURATION.md)
 
-## Ayarlar
-
-| Config anahtarı | Ortam değişkeni | Varsayılan | Anlamı |
+| Ayar | Ne yazarsınız | Varsayılan | Ne yapar |
 |---|---|---|---|
-| `port` | `SESSION_ARCHIVE_PORT` | `8765` | `127.0.0.1` üzerindeki port |
-| `open_browser` | `SESSION_ARCHIVE_OPEN_BROWSER` | `true` | Başlarken tarayıcıyı aç |
-| `idle_minutes` | `SESSION_ARCHIVE_IDLE_MINUTES` | `15` | Bundan uzun boşluklar aktif süreye sayılmaz |
-| `projects_dirs` | `SESSION_ARCHIVE_PROJECTS_DIRS` | `$CLAUDE_CONFIG_DIR/projects` ya da `~/.claude/projects` | Kayıt klasörleri; yedek klasörünü de buraya ekleyin |
-| `app_index` | `SESSION_ARCHIVE_APP_INDEX` | macOS: `~/Library/Application Support/Claude/claude-code-sessions` | Masaüstü uygulamasının oturum dizini (`backup` kullanır) |
-| `backup_dir` | `SESSION_ARCHIVE_BACKUP_DIR` | `~/Documents/claude-session-backup/projects` | `session-archive backup` hedefi |
-| `sources` | (yalnız config dosyası) | aşağıdaki beş kaynak | Bir oturumun nereden geldiğini gösteren etiket, ikon ve kurallar |
+| `PORT` | bir sayı | `8765` | Arayüz `http://127.0.0.1:PORT` adresinde açılır |
+| `OPEN_BROWSER` | `on` / `off` | `on` | Başlarken tarayıcıyı aç |
+| `IDLE_MINUTES` | bir sayı | `15` | Bundan uzun boşluklar çalışma süresine sayılmaz |
+| `CLAUDE_FOLDERS` | klasör(ler) | `~/.claude/projects` | Claude Code konuşmalarınızın yeri. Yedek klasörünü virgülden sonra ekleyin |
+| `BACKUP_FOLDER` | bir klasör | `~/Documents/claude-session-backup/projects` | `session-archive backup` kopyaları buraya koyar |
+| `APP_INDEX_FOLDER` | bir klasör | macOS konumu (hazır) | Claude masaüstü uygulamasının oturum listesi |
+| `SHOW_APP` | `on` / `off` | `on` | Claude Code uygulaması ikonu |
+| `SHOW_OBSIDIAN` | `on` / `off` | `on` | Obsidian kasasında başlatılan terminaller ikonu |
+| `SHOW_TERMINAL` | `on` / `off` | `on` | Normal terminal ikonu |
+| `SHOW_VSCODE` | `on` / `off` | `on` | VS Code ikonu |
+| `SHOW_SDK` | `on` / `off` | `on` | Betik / SDK ikonu |
+| `FOLDER_ICONS` | `klasör=ikon`, ... | yok | Bir klasör için kendi ikonunuz (aşağıda) |
 
-Ortam değişkenlerindeki listeler `PATH` gibi ayrılır: macOS/Linux'ta `:`, Windows'ta `;`.
+`off`, o kaynağın kendi ikonunun olmaması demektir: `SHOW_OBSIDIAN=off` ile kasa oturumları Terminal
+olarak görünür. Göreli yollar `.env` dosyasına görelidir.
 
-### Makinenizde farklı yollar
+## Örnekler
 
-```json
-{
-  "projects_dirs": ["~/.claude/projects", "/mnt/yedek/claude/projects"],
-  "app_index": ["~/Library/Application Support/Claude/claude-code-sessions"],
-  "backup_dir": "/mnt/yedek/claude/projects"
-}
+```ini
+# başka port, tarayıcıyı açma
+PORT=9000
+OPEN_BROWSER=off
+
+# ikinci bir klasörü (yedek) de oku
+CLAUDE_FOLDERS=~/.claude/projects, ~/Documents/claude-yedek/projects
+
+# VS Code ve Obsidian kullanmıyorum: ikonlarını gizle
+SHOW_VSCODE=off
+SHOW_OBSIDIAN=off
+
+# ~/work altında başlayanlara "server" ikonu, ~/client-x'e kendi logom
+FOLDER_ICONS=~/work=server, ~/Documents/client-x=./icons/client-x.svg
 ```
 
-Özel bir Claude Code config klasörü kullanıyorsanız `CLAUDE_CONFIG_DIR` (Claude Code'un kendi
-değişkeni) ayarlayın; kayıt klasörü onu izler.
+`FOLDER_ICONS` `klasör=ikon` çiftleri alır. İkon bir ad (`server`, `folder`, `globe`, `cloud`, `code`,
+`bolt`) ya da kendi `.svg` / `.png` / `.webp` / `.jpg` dosyanızın yoludur (en çok 256 KB). Görünen
+etiket klasörün adıdır. Klasör ikonları yerleşik olanların önüne geçer.
 
-## Kaynaklar: etiket, ikon ve kurallar
+## Diğer yollar
 
-*Kaynak*, bir oturumun nereden başladığını ve nasıl gösterileceğini söyler. Her oturum kurallara
-**sırayla** sorulur; **ilk eşleşen kazanır**. Hiçbiriyle eşleşmeyen oturum `other` olur (her zaman
-var olan yerleşik yedek; tanımlamayın).
+* **Komut satırı** dosyanın üstüne yazar: `session-archive --port 9000 --no-open --projects-dir ~/x`.
+* **Ortam değişkenleri** aynı adları `SESSION_ARCHIVE_` öneğiyle kullanır
+  (`SESSION_ARCHIVE_PORT=9000`); böylece başka araçların `PORT`'uyla karışmaz.
+* `--env-file YOL` başka bir dosyayı okur. Özel bir Claude Code config klasörü `CLAUDE_CONFIG_DIR`
+  (Claude Code'un kendi değişkeni) ile alınır.
 
-Neyi değiştirdiğinizi görmeniz için varsayılanlar:
+Öncelik: komut satırı > ortam > `.env` > varsayılan.
 
-| anahtar | İkon | Eşleşme |
-|---|---|---|
-| `desktop` | Claude logosu | `entrypoint: claude-desktop` |
-| `obsidian` | Obsidian logosu | `entrypoint: cli` **ve** çalışma klasörü `.obsidian` içeren bir klasörde |
-| `terminal` | `>_` | `entrypoint: cli` |
-| `vscode` | VS Code logosu | `entrypoint: claude-vscode` |
-| `sdk` | fiş | `entrypoint: sdk-cli`, `sdk-ts`, `sdk-py` |
-
-`obsidian`, `terminal`'den önce geldiği için kasa oturumları öne geçer. Listeyi düzenleyerek kural
-**ekleyin, çıkarın ya da sıralayın**: config'inizde `sources` varsa varsayılanların *yerine geçer*;
-dışarıda bıraktığınız kaynak kaybolur. `session-archive print-config` ile başlayın.
-
-Bir kaynak:
-
-```json
-{
-  "key": "work",
-  "label": {"en": "Work server", "tr": "İş sunucusu"},
-  "icon": "server",
-  "match": {"cwd_prefix": ["/srv/work", "~/work"]}
-}
-```
-
-| Alan | Anlamı |
-|---|---|
-| `key` | Harf, rakam, `-`, `_`. Benzersiz. `other` olamaz. |
-| `label` | Metin ya da `{dil: metin}` (arayüz önce kendi dilini, sonra İngilizceyi seçer). |
-| `icon` | Yerleşik bir ad (aşağıda). |
-| `icon_file` | `icon` yerine kendi görseliniz: `.svg`, `.png`, `.webp`, `.jpg`, en çok 256 KB. Config dosyasına göre. |
-| `match` | En az bir alan. Verilen **tüm** alanlar sağlanmalı; liste öğeleri alternatiftir. |
-
-`match` alanları:
-
-| Alan | Şu durumda doğru |
-|---|---|
-| `entrypoint` | kaydın `entrypoint` değeri listedekilerden biri (`cli`, `claude-desktop`, `claude-vscode`, `sdk-cli`, ...) |
-| `cwd_has` | çalışma klasörü **ya da bir üst klasörü** bu adlardan birini içeriyor (klasör ya da dosya, örn. `.obsidian`, `.git`) |
-| `cwd_prefix` | çalışma klasörü bu yollardan biriyle başlıyor (`~` açılır) |
-| `cwd_contains` | çalışma klasörü bu metinlerden birini içeriyor |
-
-Yerleşik ikonlar: `claude`, `obsidian`, `vscode` (ürün logoları, bkz. [NOTICE.md](../NOTICE.md)),
-`terminal`, `sdk`, `server`, `folder`, `globe`, `cloud`, `code`, `bolt`, `other` (genel çizimler).
-
-### Örnekler
-
-`client-x` adlı bir klasördeki her şeyi kendi logonuzla ayrı kaynak yapın:
-
-```json
-{"key": "client-x", "label": "Client X", "icon_file": "icons/client-x.svg", "match": {"cwd_contains": ["/client-x/"]}}
-```
-
-Obsidian'ı, `.obsidian` olan her klasör yerine yalnız kendi kasanızdan başlayanlar için ayırın:
-
-```json
-{"key": "obsidian", "icon": "obsidian", "label": "Obsidian", "match": {"entrypoint": ["cli"], "cwd_prefix": ["~/Documents/Kasam"]}}
-```
-
-Obsidian kaynağını tümden kaldırmak için girdisini silin; o oturumlar `terminal` olur.
-
-Notlar:
-- Obsidian terminal eklentisi normal bir `claude` başlatır; oturumları yalnız çalıştıkları yere göre
-  tanınır. Kuralların çalışma klasörüne bakabilmesinin nedeni budur.
-- Klasörler, oturum özeti oluşturulurken denetlenir; `cwd_has` oturum başına birkaç dosya sistemi
-  sorgusu demektir (özetler önbelleğe alınır).
-- Geçersiz config başlamayı durdurur; mesaj dosyayı ve alanı adıyla söyler.
+Dosyadaki bir hata başlamayı durdurur ve hangi ayarın neye çevrileceğini söyler
+(`PORT: write a whole number...`). Var olmayan bir ad yalnız uyarı yazdırır.

@@ -64,8 +64,8 @@ def make_projects_dir():
 
 @contextlib.contextmanager
 def isolated_cwd():
-    """Run in an empty temp directory so a developer's own ./.env or ./session-archive.json
-    (both git-ignored) can never leak into a test. Yields the directory."""
+    """Run in an empty temp directory so a developer's own ./.env (git-ignored)
+    can never leak into a test. Yields the directory."""
     old = os.getcwd()
     with tempfile.TemporaryDirectory() as tmp:
         os.chdir(tmp)

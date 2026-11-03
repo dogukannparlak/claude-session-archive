@@ -27,8 +27,7 @@ ettirmeden okuyamazsınız. Session Archive bu boşluğu doldurur.
   "sen yazmadın" notu altında kapalı gelir.
 - **Her oturumun nereden başladığını gösteren ikon** ve kaynak filtresi:
 
-  Bunlar varsayılanlardır: kaynakları ekleyebilir, çıkarabilir ya da değiştirebilirsiniz
-  ([Yapılandırma](#yapılandırma)).
+  İstediğinizi `on`/`off` ile gizleyin ya da bir klasöre kendi ikonunu verin ([Yapılandırma](#yapılandırma)).
 
   | İkon | Kaynak | Nasıl tespit edilir |
   |---|---|---|
@@ -74,17 +73,23 @@ session-archive
 
 ### Yapılandırma
 
-Her şeyin varsayılanı vardır. Başka klasörler kullanmak, kaynak ikonlarını eklemek/çıkarmak ya da
-kendinizinkini tanımlamak (etiket, yerleşik ikon ya da kendi SVG/PNG'niz, `entrypoint` ve çalışma
-klasörü kuralları) için `.env` dosyası ve/veya `session-archive.json` kullanın:
+Hiçbir şey zorunlu değil. Portu, klasörü değiştirmek, bir ikonu gizlemek ya da bir klasöre kendi
+ikonunu vermek için örneği kopyalayıp düzenleyin. Değerler `on`/`off`, bir sayı ya da bir yol yazmak
+kadar kolay:
 
 ```bash
-cp .env.example .env                                  # port ve yollar
-session-archive print-config > session-archive.json   # yollar ve kaynak listesi
+cp .env.example .env
 ```
 
-Öncelik: bayrak > ortam > `.env` > config dosyası > varsayılan. Örneklerle tam başvuru:
-[docs/CONFIGURATION.tr.md](docs/CONFIGURATION.tr.md).
+```ini
+PORT=9000
+OPEN_BROWSER=off
+CLAUDE_FOLDERS=~/.claude/projects, ~/Documents/claude-yedek/projects
+SHOW_VSCODE=off
+FOLDER_ICONS=~/work=server, ~/Documents/client-x=./icons/client-x.svg
+```
+
+Tüm ayarlar, örneklerle: [docs/CONFIGURATION.tr.md](docs/CONFIGURATION.tr.md).
 
 ### Seçenekler
 
@@ -93,8 +98,7 @@ session-archive print-config > session-archive.json   # yollar ve kaynak listesi
 | `--port N` | Dinlenecek port (varsayılan `8765`) |
 | `--projects-dir YOL` | Kayıt klasörü; yedek klasörünü de eklemek için tekrarlayın. Varsayılan: `$CLAUDE_CONFIG_DIR/projects`, yoksa `~/.claude/projects` |
 | `--no-open` | Tarayıcıyı otomatik açma |
-| `--config YOL`, `--env-file YOL` | Kullanılacak config dosyası / `.env` ([Yapılandırma](#yapılandırma)) |
-| `print-config` (komut) | Tüm varsayılanları içeren tam bir config dosyası yazdır |
+| `--env-file YOL` | `./.env` yerine kullanılacak ayar dosyası ([Yapılandırma](#yapılandırma)) |
 | `--version` | Sürümü yazdır |
 
 ### Klavye

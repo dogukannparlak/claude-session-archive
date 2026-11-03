@@ -21,7 +21,7 @@ Requires Python 3.9+. There are no runtime or test dependencies.
 
 ```
 src/session_archive/
-  config.py       settings: JSON config, .env, environment, flags
+  config.py       settings: .env, environment, flags (friendly errors)
   parsing.py      reading .jsonl, text extraction, timestamps
   classify.py     "did the human write this?" logic
   sources.py      where a session started (icon key)

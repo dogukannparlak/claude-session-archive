@@ -22,9 +22,6 @@ htmlcov/
 .env.*
 !.env.example
 
-# Your local config (copy session-archive.example.json); the example is tracked.
-session-archive.json
-
 # Never commit real transcripts or exports: they contain your private conversations.
 *.jsonl
 exports/

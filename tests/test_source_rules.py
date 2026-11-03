@@ -3,12 +3,11 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from session_archive import config
 from session_archive.sources import DEFAULT_SOURCES, SourceConfigError, parse_sources, source_of
 from session_archive.server import make_server, public_config
 from session_archive.store import SessionStore
 
-from .fixtures import OTHER_ID, SESSION_ID, isolated_cwd, main_session, second_session, write_session
+from .fixtures import OTHER_ID, SESSION_ID, main_session, second_session, write_session
 
 SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8"><rect width="8" height="8"/></svg>'
 
@@ -82,68 +81,6 @@ class ValidationTests(unittest.TestCase):
             with self.assertRaises(SourceConfigError) as ctx:
                 rules([dict(item, icon_file="big.svg")], tmp)
             self.assertIn("larger than", str(ctx.exception))
-
-
-class ConfigFileTests(unittest.TestCase):
-    def load(self, data, dotenv="", environ=None):
-        with isolated_cwd() as tmp:
-            cfg = Path(tmp) / "conf" / "session-archive.json"
-            cfg.parent.mkdir()
-            (cfg.parent / "work.svg").write_text(SVG)
-            cfg.write_text(json.dumps(data))
-            env_file = Path(tmp) / "t.env"
-            env_file.write_text(dotenv)
-            env = {"XDG_CONFIG_HOME": str(Path(tmp) / "xdg")}
-            env.update(environ or {})
-            return config.load_settings(env_file, environ=env, config_path=cfg), cfg.parent
-
-    def test_json_values_and_relative_paths(self):
-        s, _ = self.load({"port": 9001, "projects_dirs": ["data/projects", "/abs"], "app_index": "idx", "idle_minutes": 30})
-        self.assertEqual(s.port, 9001)
-        self.assertEqual(s.idle_seconds, 1800)
-        self.assertEqual(s.roots()[1], Path("/abs"))
-        self.assertTrue(str(s.roots()[0]).endswith("conf/data/projects"))  # relative to the config file
-        self.assertTrue(str(s.app_indexes[0]).endswith("conf/idx"))
-
-    def test_precedence_env_over_dotenv_over_json(self):
-        s, _ = self.load({"port": 9001}, dotenv="SESSION_ARCHIVE_PORT=9002\n")
-        self.assertEqual(s.port, 9002)
-        s, _ = self.load({"port": 9001}, dotenv="SESSION_ARCHIVE_PORT=9002\n", environ={"SESSION_ARCHIVE_PORT": "9003"})
-        self.assertEqual(s.port, 9003)
-
-    def test_custom_sources_with_own_icon_file(self):
-        s, base = self.load({"sources": [{"key": "work", "label": "Work VM", "icon_file": "work.svg", "match": {"cwd_prefix": ["/srv"]}}]})
-        self.assertEqual([r.key for r in s.sources], ["work", "other"])
-        self.assertEqual(s.sources[0].icon_file.resolve(), (base / "work.svg").resolve())  # /var -> /private/var on macOS
-
-    def test_unknown_top_level_key_is_an_error_but_underscore_comments_are_fine(self):
-        with self.assertRaises(config.ConfigError) as ctx:
-            self.load({"prot": 1})
-        self.assertIn("prot", str(ctx.exception))
-        s, _ = self.load({"_comment": "hello", "port": 9004})
-        self.assertEqual(s.port, 9004)
-
-    def test_invalid_sources_report_the_file(self):
-        with self.assertRaises(config.ConfigError) as ctx:
-            self.load({"sources": [{"key": "a", "icon": "nope", "match": {"entrypoint": ["cli"]}}]})
-        self.assertIn("unknown icon", str(ctx.exception))
-        self.assertIn("session-archive.json", str(ctx.exception))
-
-    def test_missing_explicit_config_file_is_an_error(self):
-        with isolated_cwd():
-            with self.assertRaises(config.ConfigError):
-                config.load_settings("/no/.env", environ={}, config_path="/no/such/config.json")
-
-    def test_example_file_in_the_repo_is_what_print_config_prints(self):
-        repo = Path(__file__).resolve().parent.parent
-        on_disk = json.loads((repo / "session-archive.example.json").read_text())
-        self.assertEqual(on_disk, json.loads(json.dumps(config.example_config())))
-
-    def test_example_config_loads_cleanly(self):
-        repo = Path(__file__).resolve().parent.parent
-        with isolated_cwd():
-            s = config.load_settings("/no/.env", environ={}, config_path=repo / "session-archive.example.json")
-        self.assertEqual([r.key for r in s.sources], ["desktop", "obsidian", "terminal", "vscode", "sdk", "other"])
 
 
 class StoreAndServerTests(unittest.TestCase):

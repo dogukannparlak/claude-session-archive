@@ -24,9 +24,9 @@
 
 | Module | Responsibility |
 |---|---|
-| `config.py` | Settings: defaults < JSON config < `.env` < environment < flags; validation (`ConfigError`) |
+| `config.py` | Settings from `.env` (`NAME=value`): defaults < `.env` < environment < flags; friendly `ConfigError`s; turns the `SHOW_*` switches and `FOLDER_ICONS` into source rules |
 | `parsing.py` | Defensive `.jsonl` reading; text extraction; timestamps |
-| `sources.py` | Source rules (`entrypoint`, `cwd_has`, `cwd_prefix`, `cwd_contains`; first match wins) -> source key; parsing and validation of the `sources` config |
+| `sources.py` | Source rules (`entrypoint`, `cwd_has`, `cwd_prefix`, `cwd_contains`; first match wins) -> source key; built-in rules and their validation |
 | `classify.py` | Separates human-typed messages from harness-injected ones |
 | `transcript.py` | Builds the message list for one session |
 | `store.py` | Index of all sessions; caches parsed summaries and search text by mtime |
@@ -42,7 +42,7 @@
 | `GET /api/session/<id>` | Summary + `messages` |
 | `GET /api/session/<id>?raw=1` | The raw records as a JSON array (the export button) |
 | `GET /api/config` | `{sources: [{key, label, icon}]}` for drawing labels and icons (never any file paths) |
-| `GET /icons/user/<key>.<ext>` | A custom icon file named in the config (whitelisted at startup) |
+| `GET /icons/user/<key>.<ext>` | A custom icon file named in `FOLDER_ICONS` (whitelisted at startup) |
 | `GET /api/search?q=…` | `[{id, snippet, count}]` (query ≥ 2 characters) |
 
 Backend → frontend text is always a stable **key** (`label: "skill_context"`), never a display

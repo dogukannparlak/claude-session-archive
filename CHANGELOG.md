@@ -7,6 +7,7 @@ All notable changes are documented here. The format follows
 ## [Unreleased]
 
 ### Added
+- Theme button (follow system / light / dark), remembered per browser; no flash on load.
 - Favicon (`favicon.svg`).
 - Source icons (official Claude, Obsidian and VS Code logos as SVG, see NOTICE.md) and a source filter: Claude Code app, terminal, Obsidian terminal (heuristic: working
   directory inside a vault), VS Code, SDK.

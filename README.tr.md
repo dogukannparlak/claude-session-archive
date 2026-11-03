@@ -31,6 +31,7 @@ ettirmeden okutmaz. Bu araç bu boşluğu doldurur.
   boşluklar sayılmaz).
 - Her oturum için dal ve dosya boyutu (`/resume` listesi gibi).
 - Sürüklenerek boyutlanan, gizlenebilen panel (`Ctrl/⌘+B`).
+- Tema düğmesi: sistemi izle, açık ya da koyu.
 - Türkçe ve İngilizce arayüz (otomatik algılanır, kenar çubuğundaki düğmeyle değişir).
 - Oturum başına JSON dışa aktarma ve `cd … && claude --resume <id>` komutunu tek tıkla kopyalama.
 

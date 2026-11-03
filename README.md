@@ -46,6 +46,7 @@ session without resuming it. Session Archive fills that gap.
 - Branch and file size per session, like the `/resume` picker.
 - Resizable, collapsible sidebar (drag, double-click to reset, `Ctrl/⌘+B`).
 - English and Turkish UI (auto-detected, switch with the button in the sidebar).
+- Theme button: follow the system, light or dark.
 - Per-session JSON export and a one-click copy of the `cd … && claude --resume <id>` command.
 
 ![Light theme with the source icons in the sidebar](docs/screenshots/session-light.png)

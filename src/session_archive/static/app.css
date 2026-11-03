@@ -1,12 +1,20 @@
 :root{
+  color-scheme:light dark;
   --bg:#faf9f5;--side:#f0eee6;--fg:#1f1e1d;--mut:#76736b;--line:#e4e1d6;--card:#ffffff;--bubble:#ebe8dc;
   --acc:#c15f3c;--code:#f4f2ea;--ok:#3c8c5a;--err:#c0392b;--sel:#e2dfd2;--hov:#e8e5da;--comp:#ffffff;
 }
-@media(prefers-color-scheme:dark){:root{
-  /* Claude uygulamasının koyu teması (ekran görüntüsünden örneklendi) */
+/* Dark palette (sampled from the Claude app). Applied when the OS prefers dark and the user did
+   not force light, or when the user forced dark (data-theme set by js/theme.js). */
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#181818;--side:#1f1f1f;--fg:#ececec;--mut:#8c8c8c;--line:#333333;--card:#262626;--bubble:#303030;
   --acc:#e08a66;--code:#1f1f1f;--ok:#6cc08b;--err:#ef7b6d;--sel:#404040;--hov:#2a2a2a;--comp:#262626;
 }}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#181818;--side:#1f1f1f;--fg:#ececec;--mut:#8c8c8c;--line:#333333;--card:#262626;--bubble:#303030;
+  --acc:#e08a66;--code:#1f1f1f;--ok:#6cc08b;--err:#ef7b6d;--sel:#404040;--hov:#2a2a2a;--comp:#262626;
+}
+:root[data-theme="light"]{color-scheme:light}
 *{box-sizing:border-box}
 html,body{height:100%}
 body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.65 -apple-system,"SF Pro Text",system-ui,sans-serif;display:flex;overflow:hidden}
@@ -113,7 +121,8 @@ details.note[open]>summary .tw{display:inline-block;transform:rotate(90deg)}
 .ni{margin-top:8px}.nl{font-weight:600;font-size:12px}
 details.note pre{margin:4px 0}details.note pre code{max-height:320px;font-size:11.5px}
 
-#lang{margin-left:auto;padding:2px 7px;font-size:11px;font-weight:600}
+#theme{margin-left:auto;padding:3px 6px;line-height:0}
+#lang{padding:2px 7px;font-size:11px;font-weight:600}
 
 .ico{display:inline-flex;vertical-align:-2px;margin-right:6px;color:var(--mut)}
 .ico img{display:block}

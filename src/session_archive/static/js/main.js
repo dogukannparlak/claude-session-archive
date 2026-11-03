@@ -5,8 +5,10 @@ import { applyStatic, t, toggleLang } from './i18n.js';
 import { buildFolders, buildSources, draw, onSearch } from './list.js';
 import { route } from './chat.js';
 import { initPanel } from './panel.js';
+import { initTheme } from './theme.js';
 
 applyStatic();
+initTheme();
 initPanel();
 
 function flash(button, key, ms) {

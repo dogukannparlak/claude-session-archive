@@ -54,7 +54,7 @@ session-archive
 | Flag | Meaning |
 |---|---|
 | `--port N` | Port to listen on (default `8765`) |
-| `--projects-dir PATH` | Transcript folder. Default: `$CLAUDE_CONFIG_DIR/projects`, else `~/.claude/projects` |
+| `--projects-dir PATH` | Transcript folder; repeat to add a backup folder. Default: `$CLAUDE_CONFIG_DIR/projects`, else `~/.claude/projects` |
 | `--no-open` | Don't open the browser automatically |
 | `--version` | Print the version |
 
@@ -66,6 +66,35 @@ session-archive
 | `↑` / `↓` (in search) | Move between sessions |
 | `Esc` | Leave the search box |
 | `Ctrl/⌘ + B` | Hide / show the sidebar |
+
+## Protect sessions from automatic cleanup
+
+Claude Code deletes old transcripts on its own (the `cleanupPeriodDays` setting; the default is,
+to my knowledge, 30 days, so check the Claude Code docs for your version). The setting is
+global: it cannot spare only the sessions you started from the desktop app.
+
+`session-archive backup` copies the desktop-app sessions to a folder Claude Code never touches.
+It **only adds or refreshes files and never deletes anything**, so a transcript survives even after
+Claude Code removes the original.
+
+```bash
+session-archive backup --dry-run          # show what would be copied
+session-archive backup                    # copy to ~/Documents/claude-session-backup/projects
+session-archive backup --dest ~/safe      # choose the folder
+session-archive backup --all              # terminal sessions too
+```
+
+"App sessions" are records with `entrypoint: claude-desktop` plus the sessions listed in the
+desktop app's own index. Then browse live and backed-up sessions together (duplicates are merged,
+the bigger file wins):
+
+```bash
+session-archive --projects-dir ~/.claude/projects --projects-dir ~/Documents/claude-session-backup/projects
+```
+
+Run the backup regularly (before the retention window passes) or add it to a Claude Code
+`SessionStart` hook. The simplest alternative is raising `cleanupPeriodDays` in
+`~/.claude/settings.json`, which protects every session, at the cost of disk space.
 
 ## Privacy and security
 

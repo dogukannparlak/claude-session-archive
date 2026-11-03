@@ -27,7 +27,8 @@
 | `transcript.py` | Builds the message list for one session |
 | `store.py` | Index of all sessions; caches parsed summaries and search text by mtime |
 | `server.py` | HTTP handler: Host check, CSP, static whitelist, JSON API |
-| `cli.py` | `argparse` entry point |
+| `backup.py` | Copy-only backup of desktop-app sessions (selection by `entrypoint` and the app index) |
+| `cli.py` | `argparse` entry point (`serve` by default, `backup` subcommand) |
 
 ### API
 

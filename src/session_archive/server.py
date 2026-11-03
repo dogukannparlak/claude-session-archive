@@ -13,11 +13,12 @@ CONTENT_TYPES = {
     ".html": "text/html; charset=utf-8",
     ".css": "text/css; charset=utf-8",
     ".js": "text/javascript; charset=utf-8",
+    ".svg": "image/svg+xml",
 }
 
 
 def _static_routes():
-    """Map URL path -> (file, content type) for every html/css/js file under static/.
+    """Map URL path -> (file, content type) for every html/css/js/svg file under static/.
 
     Built once from a directory scan, so a request can only ever reach a file that
     exists in this table (no path traversal possible).
@@ -40,7 +41,7 @@ SECURITY_HEADERS = {
     "Referrer-Policy": "no-referrer",
     "Cache-Control": "no-store",
     "Content-Security-Policy": (
-        "default-src 'none'; script-src 'self'; style-src 'self'; "
+        "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; "
         "connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
     ),
 }

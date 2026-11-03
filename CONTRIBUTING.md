@@ -26,6 +26,7 @@ src/session_archive/
   classify.py     "did the human write this?" logic
   transcript.py   one session -> messages for the UI
   store.py        session index, titles, active time, full-text search
+  backup.py       copy-only backup of app sessions (never deletes)
   server.py       static files + read-only JSON API (localhost only)
   cli.py          command line
   static/         index.html, app.css, js/*.js (ES modules, i18n in js/i18n.js)

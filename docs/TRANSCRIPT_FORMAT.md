@@ -40,3 +40,10 @@ failing example first.
 
 A `tool_result` block lives in a *later* `user` record and refers back via `tool_use_id`. The
 frontend pairs them with the `tool_use` by id and hides the result-only records.
+
+## Where a session came from
+
+Records carry `entrypoint`: `cli` (terminal), `claude-desktop` (desktop app Code tab),
+`claude-vscode` (VS Code extension), `sdk-cli` (programmatic use). The macOS desktop app also
+keeps an index at `~/Library/Application Support/Claude/claude-code-sessions/<account>/<org>/local_*.json`
+whose `cliSessionId` is the transcript's file name. `backup.py` uses both to pick app sessions.

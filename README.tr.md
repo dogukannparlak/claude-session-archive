@@ -44,6 +44,28 @@ PYTHONPATH=src python3 -m session_archive      # ya da: make run
 Seçenekler: `--port N`, `--projects-dir YOL` (varsayılan `$CLAUDE_CONFIG_DIR/projects`, yoksa
 `~/.claude/projects`), `--no-open`, `--version`.
 
+## Otomatik silinmeye karşı koruma
+
+Claude Code eski kayıtları kendiliğinden siler (`cleanupPeriodDays` ayarı; varsayılanın 30 gün
+olduğunu biliyorum ama sürümünüz için Claude Code belgelerine bakın). Ayar geneldir: yalnız masaüstü
+uygulamasından açtığınız oturumları koruyamaz.
+
+`session-archive backup`, uygulama oturumlarını Claude Code'un dokunmadığı bir klasöre kopyalar.
+**Yalnız ekler/yeniler, hiçbir şey silmez**; yani Claude Code orijinali silse de kopya kalır.
+
+```bash
+session-archive backup --dry-run          # neyin kopyalanacağını göster
+session-archive backup                    # ~/Documents/claude-session-backup/projects içine kopyala
+session-archive backup --dest ~/guvenli   # klasörü seç
+session-archive backup --all              # terminal oturumları da
+```
+
+Canlı ve yedeklenmiş oturumları birlikte görmek için:
+`session-archive --projects-dir ~/.claude/projects --projects-dir ~/Documents/claude-session-backup/projects`
+
+Saklama süresi dolmadan düzenli çalıştırın. Her oturumu korumanın en basit yolu,
+`~/.claude/settings.json` içinde `cleanupPeriodDays` değerini yükseltmektir (disk kullanımı artar).
+
 ## Gizlilik ve güvenlik
 
 Oturum kayıtları kod, gizli anahtar ve kişisel veri içerebilir. Araç bunları yerelde tutmak için

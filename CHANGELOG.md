@@ -4,6 +4,14 @@ All notable changes are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- Favicon (`favicon.svg`).
+- `session-archive backup`: copy-only backup of desktop-app sessions (never deletes), so
+  Claude Code's age-based cleanup cannot remove them.
+- `--projects-dir` can be repeated to browse live and backed-up sessions together.
+
 ## [0.1.0] - 2026-11-04
 
 ### Added

@@ -58,7 +58,7 @@ session without resuming it. Session Archive fills that gap.
 Requires Python 3.9+. No packages to install.
 
 ```bash
-git clone https://github.com/<you>/claude-session-archive.git
+git clone https://github.com/dogukannparlak/claude-session-archive.git
 cd claude-session-archive
 PYTHONPATH=src python3 -m session_archive      # or: make run
 ```

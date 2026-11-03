@@ -57,7 +57,7 @@ ettirmeden okuyamazsınız. Session Archive bu boşluğu doldurur.
 Python 3.9+ gerekir. Kurulacak paket yok.
 
 ```bash
-git clone https://github.com/<kullanici>/claude-session-archive.git
+git clone https://github.com/dogukannparlak/claude-session-archive.git
 cd claude-session-archive
 PYTHONPATH=src python3 -m session_archive      # ya da: make run
 ```

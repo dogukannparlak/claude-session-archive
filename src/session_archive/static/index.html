@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Session Archive</title>
+<link rel="stylesheet" href="/app.css">
+<aside id="side">
+  <header>
+    <div class="brand"><span class="logo">✦</span><span data-i18n="app.title"></span><button class="btn" id="lang" data-i18n-title="tip.lang">TR/EN</button></div>
+    <input id="q" data-i18n-ph="search.ph" autocomplete="off">
+    <select id="fold"></select>
+  </header>
+  <div id="count"></div>
+  <nav id="list"></nav>
+</aside>
+<div id="rs" data-i18n-title="tip.resize"></div>
+<section id="main">
+  <div id="top">
+    <button class="btn" id="tg" data-i18n-title="tip.toggle">☰</button>
+    <a class="btn" id="back" href="#/">←</a>
+    <div class="gr"><div class="ti" id="ti"></div><div class="su" id="su"></div></div>
+    <a class="btn" id="dl" download>JSON</a>
+  </div>
+  <div id="scroll"><div id="chat"><div class="empty"><span data-i18n="empty.pick"></span></div></div></div>
+  <div id="comp" hidden>
+    <div class="box">
+      <div class="ph"><span data-i18n="comp.ph"></span><code id="cmd"></code></div>
+      <button class="go" id="copy" data-i18n="copy"></button>
+    </div>
+  </div>
+</section>
+<script type="module" src="/js/main.js"></script>
+</html>

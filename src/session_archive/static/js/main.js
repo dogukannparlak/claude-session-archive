@@ -2,7 +2,7 @@
 import { $ } from './dom.js';
 import { S } from './state.js';
 import { applyStatic, t, toggleLang } from './i18n.js';
-import { buildFolders, draw, onSearch } from './list.js';
+import { buildFolders, buildSources, draw, onSearch } from './list.js';
 import { route } from './chat.js';
 import { initPanel } from './panel.js';
 
@@ -33,6 +33,7 @@ $('#copy').onclick = (e) => { navigator.clipboard.writeText(S.curCmd); flash(e.t
 $('#lang').onclick = toggleLang;
 $('#q').oninput = onSearch;
 $('#fold').onchange = draw;
+$('#srcf').onchange = draw;
 
 addEventListener('keydown', (e) => {
   const q = $('#q');
@@ -54,4 +55,4 @@ addEventListener('keydown', (e) => {
 });
 
 addEventListener('hashchange', route);
-fetch('/api/sessions').then((r) => r.json()).then((d) => { S.all = d; buildFolders(); route(); });
+fetch('/api/sessions').then((r) => r.json()).then((d) => { S.all = d; buildFolders(); buildSources(); route(); });

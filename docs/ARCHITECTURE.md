@@ -23,6 +23,7 @@
 |---|---|
 | `config.py` | Projects directory resolution, idle threshold, size limits |
 | `parsing.py` | Defensive `.jsonl` reading; text extraction; timestamps |
+| `sources.py` | `entrypoint` (+ working directory) -> source key for the icon (`desktop`, `terminal`, `obsidian`, `vscode`, `sdk`, `other`) |
 | `classify.py` | Separates human-typed messages from harness-injected ones |
 | `transcript.py` | Builds the message list for one session |
 | `store.py` | Index of all sessions; caches parsed summaries and search text by mtime |
@@ -52,7 +53,7 @@ sessions).
 
 Plain ES modules, no bundler: `main.js` (wiring) → `list.js` (sidebar), `chat.js`
 (conversation), `panel.js` (resize/collapse), `markdown.js` (tiny renderer), `format.js`,
-`i18n.js` (tr/en), `dom.js`, `state.js`.
+`i18n.js` (tr/en), `icons.js` (source icons), `dom.js`, `state.js`.
 
 Rules: every string from a transcript is escaped before it reaches `innerHTML`; user-visible
 text goes through `t()`; `localStorage` access is wrapped in try/catch.

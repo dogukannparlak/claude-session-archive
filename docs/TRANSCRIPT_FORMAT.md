@@ -47,3 +47,7 @@ Records carry `entrypoint`: `cli` (terminal), `claude-desktop` (desktop app Code
 `claude-vscode` (VS Code extension), `sdk-cli` (programmatic use). The macOS desktop app also
 keeps an index at `~/Library/Application Support/Claude/claude-code-sessions/<account>/<org>/local_*.json`
 whose `cliSessionId` is the transcript's file name. `backup.py` uses both to pick app sessions.
+
+Obsidian has no entrypoint of its own: a terminal plugin runs plain `claude`, so those sessions
+record `cli`. `sources.py` labels a `cli` session "obsidian" when its `cwd` (or a parent) holds an
+`.obsidian` folder. It is a heuristic and checks the filesystem when the summary is built.

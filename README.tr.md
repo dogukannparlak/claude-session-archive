@@ -21,6 +21,11 @@ ettirmeden okutmaz. Bu araç bu boşluğu doldurur.
 - **"Bunu ben mi yazdım?":** Skill içerikleri, IDE bağlamı, görev bildirimleri, alt ajan raporları ve
   özetler kayıtta *kullanıcı* olarak durur ama sizin değildir. Mesajınız gibi görünmek yerine
   "sen yazmadın" notu altında kapalı gelir.
+- **Her oturumun nereden başladığını gösteren ikon** ve kaynak filtresi: ✦ Claude Code uygulaması,
+  `>_` terminal, elmas Obsidian terminali, `</>` VS Code, fiş SDK/betik. Obsidian bir **tahmindir**:
+  Obsidian içindeki terminal eklentisi sıradan bir `claude` süreci başlatır, kayıt terminalden
+  ayırt edilemez; çalışma klasörü bir Obsidian kasasındaysa (`.obsidian` klasörü) Obsidian sayılır.
+  İkonlar basit genel çizimlerdir, resmî logolar değildir.
 - **Tüm oturumlarda tam metin arama** (vurgulu alıntı) ve klasör filtresi.
 - **Gerçek zaman çizgisi:** ilk → son mesaj, toplam süre ve *aktif süre* (15 dakikadan uzun
   boşluklar sayılmaz).
@@ -28,6 +33,10 @@ ettirmeden okutmaz. Bu araç bu boşluğu doldurur.
 - Sürüklenerek boyutlanan, gizlenebilen panel (`Ctrl/⌘+B`).
 - Türkçe ve İngilizce arayüz (otomatik algılanır, kenar çubuğundaki düğmeyle değişir).
 - Oturum başına JSON dışa aktarma ve `cd … && claude --resume <id>` komutunu tek tıkla kopyalama.
+
+![Koyu tema](docs/screenshots/conversation-dark.png)
+
+<sub>Ekran görüntüleri sahte demo verisiyle alındı (`scripts/make_demo_data.py`).</sub>
 
 ## Hızlı başlangıç
 

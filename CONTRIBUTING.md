@@ -24,6 +24,7 @@ src/session_archive/
   config.py       paths and tunables
   parsing.py      reading .jsonl, text extraction, timestamps
   classify.py     "did the human write this?" logic
+  sources.py      where a session started (icon key)
   transcript.py   one session -> messages for the UI
   store.py        session index, titles, active time, full-text search
   backup.py       copy-only backup of app sessions (never deletes)
@@ -31,6 +32,7 @@ src/session_archive/
   cli.py          command line
   static/         index.html, app.css, js/*.js (ES modules, i18n in js/i18n.js)
 tests/            unittest suite with synthetic fixtures
+scripts/          make_demo_data.py: synthetic sessions for screenshots
 docs/             architecture and the transcript format notes
 ```
 
@@ -43,12 +45,13 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for how the pieces fit.
 2. **Keep it read-only and local.** No writing to transcripts, no network calls, no
    `--host 0.0.0.0` option. Changes that weaken the guarantees in [SECURITY.md](SECURITY.md)
    will not be merged.
-3. **Add a test** for backend behaviour changes. Run `make test` and `make lint`.
-4. **User-visible text goes through `js/i18n.js`.** Add the key to both `tr` and `en`.
+3. **Screenshots use synthetic data only** (`make demo`). Never screenshot your own sessions.
+4. **Add a test** for backend behaviour changes. Run `make test` and `make lint`.
+5. **User-visible text goes through `js/i18n.js`.** Add the key to both `tr` and `en`.
    Backend code returns stable *keys* (e.g. `skill_context`), never display strings.
-5. **Escape everything.** Transcript content is untrusted; render it with `esc()` or the
+6. **Escape everything.** Transcript content is untrusted; render it with `esc()` or the
    Markdown renderer, never as raw HTML.
-6. Keep commits focused and write messages in the imperative ("Fix idle-time rounding").
+7. Keep commits focused and write messages in the imperative ("Fix idle-time rounding").
 
 ## The transcript format is unofficial
 

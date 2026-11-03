@@ -8,6 +8,10 @@ All notable changes are documented here. The format follows
 
 ### Added
 - Favicon (`favicon.svg`).
+- Source icons and a source filter: Claude Code app, terminal, Obsidian terminal (heuristic: working
+  directory inside a vault), VS Code, SDK.
+- `scripts/make_demo_data.py` and `make demo`: synthetic data for screenshots; README screenshots.
+- Dates follow the UI language (`en-US` / `tr-TR`) instead of the browser locale.
 - `session-archive backup`: copy-only backup of desktop-app sessions (never deletes), so
   Claude Code's age-based cleanup cannot remove them.
 - `--projects-dir` can be repeated to browse live and backed-up sessions together.

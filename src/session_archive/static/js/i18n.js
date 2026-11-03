@@ -28,6 +28,9 @@ const DICT = {
     'tip.toggle': 'Paneli gizle/göster (Ctrl/⌘+B)',
     'tip.resize': 'Sürükle: genişlik · Çift tık: sıfırla · Ctrl/⌘+B: gizle',
     'tip.lang': 'Language: English',
+    'src.all': 'Tüm kaynaklar',
+    'src.terminal': 'Terminal', 'src.obsidian': 'Obsidian terminali', 'src.desktop': 'Claude Code uygulaması', 'src.vscode': 'VS Code eklentisi',
+    'src.sdk': 'SDK / betik', 'src.other': 'Diğer / bilinmiyor',
     'label.task_notification': 'Görev bildirimi',
     'label.peer_message': 'Başka oturum / alt ajan mesajı',
     'label.auto_continue': 'Otomatik devam',
@@ -64,6 +67,9 @@ const DICT = {
     'tip.toggle': 'Hide/show panel (Ctrl/⌘+B)',
     'tip.resize': 'Drag: width · Double-click: reset · Ctrl/⌘+B: hide',
     'tip.lang': 'Dil: Türkçe',
+    'src.all': 'All sources',
+    'src.terminal': 'Terminal', 'src.obsidian': 'Obsidian terminal', 'src.desktop': 'Claude Code app', 'src.vscode': 'VS Code extension',
+    'src.sdk': 'SDK / script', 'src.other': 'Other / unknown',
     'label.task_notification': 'Task notification',
     'label.peer_message': 'Message from another session / sub-agent',
     'label.auto_continue': 'Auto-continue',
@@ -82,7 +88,7 @@ export const lang = (() => {
   return (navigator.language || 'en').toLowerCase().startsWith('tr') ? 'tr' : 'en';
 })();
 
-export const locale = lang === 'tr' ? 'tr-TR' : undefined;
+export const locale = lang === 'tr' ? 'tr-TR' : 'en-US'; // explicit, so the date format matches the UI language
 
 export function t(key, vars) {
   let s = (DICT[lang] && DICT[lang][key]) || DICT.en[key] || key;

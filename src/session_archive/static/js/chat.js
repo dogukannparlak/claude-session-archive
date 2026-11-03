@@ -5,6 +5,7 @@ import { t } from './i18n.js';
 import { activeText, dur, fullDate, range } from './format.js';
 import { md } from './markdown.js';
 import { draw } from './list.js';
+import { icon } from './icons.js';
 
 const NOTE = new Set(['meta', 'system']); // kinds collapsed into "not written by you" notes
 
@@ -83,7 +84,7 @@ export async function view(id) {
   const model = (d.messages.find((m) => m.model) || {}).model || '';
   const span = range(d) + ' (' + dur(d.last - d.first) + activeText(d).replace(' · ', ', ') + ')';
   $('#comp').hidden = false;
-  $('#ti').textContent = d.title || t('untitled');
+  $('#ti').innerHTML = `<span class="ico" title="${esc(t('src.' + d.source))}">${icon(d.source)}</span>${esc(d.title || t('untitled'))}`;
   $('#su').textContent = [d.cwd, model, span, t('messages', { n: d.n })].filter(Boolean).join(' · ');
   $('#dl').hidden = false;
   $('#dl').href = '/api/session/' + id + '?raw=1';

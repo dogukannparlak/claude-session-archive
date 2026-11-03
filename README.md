@@ -7,6 +7,10 @@ leaves your computer.
 
 [Türkçe README](README.tr.md)
 
+![Dark theme: a conversation with a table, a code block and a collapsed "not written by you" note](docs/screenshots/conversation-dark.png)
+
+<sub>All screenshots use synthetic demo data (`scripts/make_demo_data.py`), not real conversations.</sub>
+
 ## Why
 
 `claude --resume` is great for picking a session up again, but not for *finding* something:
@@ -22,6 +26,20 @@ session without resuming it. Session Archive fills that gap.
 - **"Did I write this?"**: skill bodies, IDE context, task notifications, sub-agent reports
   and compaction summaries are stored as *user* records but are not yours. They are collapsed
   under a "not written by you" note instead of looking like your messages.
+- **An icon for where each session started**, plus a source filter:
+
+  | Icon | Source | How it is detected |
+  |---|---|---|
+  | ✦ (orange) | Claude Code desktop app | `entrypoint: claude-desktop` |
+  | `>_` | Terminal | `entrypoint: cli` |
+  | gem (purple) | Obsidian terminal | `cli` session whose working directory is inside an Obsidian vault (`.obsidian` folder), see the note below |
+  | `</>` (blue) | VS Code extension | `entrypoint: claude-vscode` |
+  | plug | SDK / scripts | `entrypoint: sdk-*` |
+
+  > Obsidian is a **heuristic**: a terminal plugin inside Obsidian starts an ordinary `claude`
+  > process, so the transcript is identical to a terminal session. A session you start from another
+  > terminal inside the same vault gets the same icon. The icons are simple generic glyphs, not the
+  > official product logos.
 - **Full-text search** across every session, with highlighted snippets, plus a folder filter.
 - **Real timeline**: first → last message, total span, and *active time* (gaps over 15
   minutes are ignored), so "82 h" does not pretend you worked 82 hours.
@@ -29,6 +47,8 @@ session without resuming it. Session Archive fills that gap.
 - Resizable, collapsible sidebar (drag, double-click to reset, `Ctrl/⌘+B`).
 - English and Turkish UI (auto-detected, switch with the button in the sidebar).
 - Per-session JSON export and a one-click copy of the `cd … && claude --resume <id>` command.
+
+![Light theme with the source icons in the sidebar](docs/screenshots/session-light.png)
 
 ## Quick start
 
@@ -117,6 +137,7 @@ and [docs/TRANSCRIPT_FORMAT.md](docs/TRANSCRIPT_FORMAT.md).
 ```bash
 make test    # unit tests (stdlib unittest)
 make lint    # compile all sources
+make demo    # serve synthetic demo data on http://127.0.0.1:8770 (for screenshots)
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). Changes are tracked in [CHANGELOG.md](CHANGELOG.md).

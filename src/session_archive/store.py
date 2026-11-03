@@ -4,6 +4,7 @@ import re
 from . import config
 from .classify import classify
 from .parsing import clean_title, epoch, iter_records, text_of
+from .sources import source_of
 
 ID_RE = re.compile(r"^[0-9a-f-]{36}$")
 
@@ -37,7 +38,7 @@ class SessionStore:
         if hit and hit[0] == st.st_mtime:
             return hit[1]
 
-        custom = ai = agent = first = cwd = branch = None
+        custom = ai = agent = first = cwd = branch = entrypoint = None
         count = 0
         t_first = t_last = None
         active = 0.0
@@ -45,6 +46,7 @@ class SessionStore:
 
         for rec in iter_records(path):
             rtype = rec.get("type")
+            entrypoint = entrypoint or rec.get("entrypoint")
             if rtype == "custom-title":  # set by /rename: highest priority
                 custom = rec.get("customTitle") or rec.get("title") or custom
             elif rtype == "ai-title":  # the title shown by `claude --resume`; last one wins
@@ -78,6 +80,8 @@ class SessionStore:
             "project": path.parent.name,
             "cwd": cwd or "",
             "branch": branch or "",
+            "entrypoint": entrypoint or "",
+            "source": source_of(entrypoint, cwd),
             "size": st.st_size,
             "title": (custom or ai or agent or first or "")[:120],
             "title_src": "custom" if custom else "ai" if ai else "agent" if agent else "first",

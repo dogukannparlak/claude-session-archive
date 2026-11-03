@@ -8,7 +8,7 @@ All notable changes are documented here. The format follows
 
 ### Added
 - Favicon (`favicon.svg`).
-- Source icons and a source filter: Claude Code app, terminal, Obsidian terminal (heuristic: working
+- Source icons (official Claude, Obsidian and VS Code logos as SVG, see NOTICE.md) and a source filter: Claude Code app, terminal, Obsidian terminal (heuristic: working
   directory inside a vault), VS Code, SDK.
 - `scripts/make_demo_data.py` and `make demo`: synthetic data for screenshots; README screenshots.
 - Dates follow the UI language (`en-US` / `tr-TR`) instead of the browser locale.

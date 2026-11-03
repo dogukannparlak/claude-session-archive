@@ -30,16 +30,16 @@ session without resuming it. Session Archive fills that gap.
 
   | Icon | Source | How it is detected |
   |---|---|---|
-  | ✦ (orange) | Claude Code desktop app | `entrypoint: claude-desktop` |
+  | Claude logo | Claude Code desktop app | `entrypoint: claude-desktop` |
   | `>_` | Terminal | `entrypoint: cli` |
-  | gem (purple) | Obsidian terminal | `cli` session whose working directory is inside an Obsidian vault (`.obsidian` folder), see the note below |
-  | `</>` (blue) | VS Code extension | `entrypoint: claude-vscode` |
+  | Obsidian logo | Obsidian terminal | `cli` session whose working directory is inside an Obsidian vault (`.obsidian` folder), see the note below |
+  | VS Code logo | VS Code extension | `entrypoint: claude-vscode` |
   | plug | SDK / scripts | `entrypoint: sdk-*` |
 
   > Obsidian is a **heuristic**: a terminal plugin inside Obsidian starts an ordinary `claude`
   > process, so the transcript is identical to a terminal session. A session you start from another
-  > terminal inside the same vault gets the same icon. The icons are simple generic glyphs, not the
-  > official product logos.
+  > terminal inside the same vault gets the same icon. The product logos are used only for
+  > identification; see [NOTICE.md](NOTICE.md) for sources, licenses and the trademark note.
 - **Full-text search** across every session, with highlighted snippets, plus a folder filter.
 - **Real timeline**: first → last message, total span, and *active time* (gaps over 15
   minutes are ignored), so "82 h" does not pretend you worked 82 hours.
@@ -144,4 +144,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Changes are tracked in [CHANGELOG.md](CH
 
 ## License
 
-[MIT](LICENSE). Not affiliated with or endorsed by Anthropic.
+[MIT](LICENSE) for the code. Product logos are trademarks of their owners ([NOTICE.md](NOTICE.md)). Not affiliated with or endorsed by Anthropic, Microsoft or Obsidian.

@@ -36,7 +36,7 @@ class ServerTests(unittest.TestCase):
         self.assertEqual(self.server.server_address[0], "127.0.0.1")
 
     def test_static_files_and_security_headers(self):
-        for path, ctype in (("/", "text/html"), ("/app.css", "text/css"), ("/js/main.js", "text/javascript"), ("/favicon.svg", "image/svg+xml")):
+        for path, ctype in (("/", "text/html"), ("/app.css", "text/css"), ("/js/main.js", "text/javascript"), ("/favicon.svg", "image/svg+xml"), ("/icons/obsidian.svg", "image/svg+xml"), ("/icons/claude.svg", "image/svg+xml"), ("/icons/vscode.svg", "image/svg+xml")):
             res, body = self.get(path)
             self.assertEqual(res.status, 200, path)
             self.assertTrue(res.getheader("Content-Type").startswith(ctype), path)

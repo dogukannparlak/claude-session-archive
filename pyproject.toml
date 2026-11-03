@@ -27,4 +27,4 @@ session-archive = "session_archive.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-session_archive = ["static/*", "static/js/*"]
+session_archive = ["static/*", "static/js/*", "static/icons/*"]

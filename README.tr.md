@@ -21,11 +21,11 @@ ettirmeden okutmaz. Bu araç bu boşluğu doldurur.
 - **"Bunu ben mi yazdım?":** Skill içerikleri, IDE bağlamı, görev bildirimleri, alt ajan raporları ve
   özetler kayıtta *kullanıcı* olarak durur ama sizin değildir. Mesajınız gibi görünmek yerine
   "sen yazmadın" notu altında kapalı gelir.
-- **Her oturumun nereden başladığını gösteren ikon** ve kaynak filtresi: ✦ Claude Code uygulaması,
-  `>_` terminal, elmas Obsidian terminali, `</>` VS Code, fiş SDK/betik. Obsidian bir **tahmindir**:
+- **Her oturumun nereden başladığını gösteren ikon** ve kaynak filtresi: Claude logosu = Claude Code uygulaması,
+  `>_` terminal, Obsidian logosu = Obsidian terminali, VS Code logosu, fiş = SDK/betik. Obsidian bir **tahmindir**:
   Obsidian içindeki terminal eklentisi sıradan bir `claude` süreci başlatır, kayıt terminalden
   ayırt edilemez; çalışma klasörü bir Obsidian kasasındaysa (`.obsidian` klasörü) Obsidian sayılır.
-  İkonlar basit genel çizimlerdir, resmî logolar değildir.
+  Ürün logoları yalnız ayırt etmek içindir; kaynaklar ve marka notu için [NOTICE.md](NOTICE.md).
 - **Tüm oturumlarda tam metin arama** (vurgulu alıntı) ve klasör filtresi.
 - **Gerçek zaman çizgisi:** ilk → son mesaj, toplam süre ve *aktif süre* (15 dakikadan uzun
   boşluklar sayılmaz).
@@ -93,4 +93,4 @@ Katkı için [CONTRIBUTING.md](CONTRIBUTING.md), değişiklikler için [CHANGELO
 
 ## Lisans
 
-[MIT](LICENSE). Anthropic ile bağlantılı değildir.
+[MIT](LICENSE) (kod için). Ürün logoları sahiplerinin ticari markasıdır ([NOTICE.md](NOTICE.md)). Anthropic, Microsoft ya da Obsidian ile bağlantılı değildir.

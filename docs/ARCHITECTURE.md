@@ -24,9 +24,9 @@
 
 | Module | Responsibility |
 |---|---|
-| `config.py` | Projects directory resolution, idle threshold, size limits |
+| `config.py` | Settings: defaults < JSON config < `.env` < environment < flags; validation (`ConfigError`) |
 | `parsing.py` | Defensive `.jsonl` reading; text extraction; timestamps |
-| `sources.py` | `entrypoint` (+ working directory) -> source key for the icon (`desktop`, `terminal`, `obsidian`, `vscode`, `sdk`, `other`) |
+| `sources.py` | Source rules (`entrypoint`, `cwd_has`, `cwd_prefix`, `cwd_contains`; first match wins) -> source key; parsing and validation of the `sources` config |
 | `classify.py` | Separates human-typed messages from harness-injected ones |
 | `transcript.py` | Builds the message list for one session |
 | `store.py` | Index of all sessions; caches parsed summaries and search text by mtime |
@@ -41,6 +41,8 @@
 | `GET /api/sessions` | Summaries (`title`, `cwd`, `branch`, `size`, `entrypoint`, `source`, `first`/`last`, `active`, `n`), newest last-message first |
 | `GET /api/session/<id>` | Summary + `messages` |
 | `GET /api/session/<id>?raw=1` | The raw records as a JSON array (the export button) |
+| `GET /api/config` | `{sources: [{key, label, icon}]}` for drawing labels and icons (never any file paths) |
+| `GET /icons/user/<key>.<ext>` | A custom icon file named in the config (whitelisted at startup) |
 | `GET /api/search?q=…` | `[{id, snippet, count}]` (query ≥ 2 characters) |
 
 Backend → frontend text is always a stable **key** (`label: "skill_context"`), never a display
@@ -53,6 +55,8 @@ re-parses files that changed. The whole text index lives in memory (a few MB for
 sessions).
 
 ## Frontend (`static/js/`)
+
+The source list, labels and icons come from `/api/config`, not from the JavaScript.
 
 Plain ES modules, no bundler: `main.js` (wiring) → `list.js` (sidebar), `chat.js`
 (conversation), `panel.js` (resize/collapse), `markdown.js` (tiny renderer), `format.js`,

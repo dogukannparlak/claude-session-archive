@@ -16,7 +16,9 @@ class SessionStore:
     only new or changed sessions are re-parsed.
     """
 
-    def __init__(self, root):
+    def __init__(self, root, idle_seconds=config.IDLE_SECONDS, sources=None):
+        self.idle_seconds = idle_seconds
+        self.sources = sources  # list of SourceRule; None = built-in defaults
         # One directory or a list (e.g. live transcripts + a backup folder).
         self.roots = list(root) if isinstance(root, (list, tuple)) else [root]
         self._summary = {}  # path -> (mtime, summary dict)
@@ -59,7 +61,7 @@ class SessionStore:
                 branch = branch or rec.get("gitBranch")
                 ts = epoch(rec.get("timestamp"))
                 if ts:
-                    if t_last is not None and 0 < ts - t_last <= config.IDLE_SECONDS:
+                    if t_last is not None and 0 < ts - t_last <= self.idle_seconds:
                         active += ts - t_last
                     t_first = t_first if t_first is not None else ts
                     t_last = ts
@@ -81,7 +83,7 @@ class SessionStore:
             "cwd": cwd or "",
             "branch": branch or "",
             "entrypoint": entrypoint or "",
-            "source": source_of(entrypoint, cwd),
+            "source": source_of(entrypoint, cwd, self.sources),
             "size": st.st_size,
             "title": (custom or ai or agent or first or "")[:120],
             "title_src": "custom" if custom else "ai" if ai else "agent" if agent else "first",

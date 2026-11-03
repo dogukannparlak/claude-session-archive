@@ -1,0 +1,84 @@
+{
+  "port": 8765,
+  "open_browser": true,
+  "idle_minutes": 15,
+  "projects_dirs": [
+    "~/.claude/projects"
+  ],
+  "app_index": [
+    "~/Library/Application Support/Claude/claude-code-sessions"
+  ],
+  "backup_dir": "~/Documents/claude-session-backup/projects",
+  "sources": [
+    {
+      "key": "desktop",
+      "label": {
+        "en": "Claude Code app",
+        "tr": "Claude Code uygulaması"
+      },
+      "icon": "claude",
+      "match": {
+        "entrypoint": [
+          "claude-desktop"
+        ]
+      }
+    },
+    {
+      "key": "obsidian",
+      "label": {
+        "en": "Obsidian terminal",
+        "tr": "Obsidian terminali"
+      },
+      "icon": "obsidian",
+      "match": {
+        "entrypoint": [
+          "cli"
+        ],
+        "cwd_has": [
+          ".obsidian"
+        ]
+      }
+    },
+    {
+      "key": "terminal",
+      "label": {
+        "en": "Terminal",
+        "tr": "Terminal"
+      },
+      "icon": "terminal",
+      "match": {
+        "entrypoint": [
+          "cli"
+        ]
+      }
+    },
+    {
+      "key": "vscode",
+      "label": {
+        "en": "VS Code extension",
+        "tr": "VS Code eklentisi"
+      },
+      "icon": "vscode",
+      "match": {
+        "entrypoint": [
+          "claude-vscode"
+        ]
+      }
+    },
+    {
+      "key": "sdk",
+      "label": {
+        "en": "SDK / script",
+        "tr": "SDK / betik"
+      },
+      "icon": "sdk",
+      "match": {
+        "entrypoint": [
+          "sdk-cli",
+          "sdk-ts",
+          "sdk-py"
+        ]
+      }
+    }
+  ]
+}

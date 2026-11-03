@@ -57,4 +57,13 @@ addEventListener('keydown', (e) => {
 });
 
 addEventListener('hashchange', route);
-fetch('/api/sessions').then((r) => r.json()).then((d) => { S.all = d; buildFolders(); buildSources(); route(); });
+Promise.all([
+  fetch('/api/config').then((r) => r.json()).catch(() => ({ sources: [] })), // icons fall back to "other"
+  fetch('/api/sessions').then((r) => r.json()),
+]).then(([config, sessions]) => {
+  S.config = config;
+  S.all = sessions;
+  buildFolders();
+  buildSources();
+  route();
+});

@@ -4,6 +4,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
+from . import sources as sources_mod
 from .parsing import iter_records
 from .transcript import build_transcript
 
@@ -47,7 +48,28 @@ SECURITY_HEADERS = {
 }
 
 
+def public_config(rules):
+    """What the frontend needs to draw sources: key, label and icon (never any paths)."""
+    out = []
+    for r in rules:
+        icon = {"builtin": r.icon}
+        if r.icon_file:
+            icon = {"url": "/icons/user/%s%s" % (r.key, r.icon_file.suffix.lower())}
+        out.append({"key": r.key, "label": r.label, "icon": icon})
+    return {"sources": out}
+
+
+def user_icon_routes(rules):
+    """URL -> (file, content type) for the icon files named in the config (fixed at startup)."""
+    return {
+        "/icons/user/%s%s" % (r.key, r.icon_file.suffix.lower()): (r.icon_file, sources_mod.ICON_FILE_TYPES[r.icon_file.suffix.lower()])
+        for r in rules if r.icon_file
+    }
+
+
 def make_handler(store):
+    rules = store.sources or sources_mod.DEFAULT_RULES
+    user_icons = user_icon_routes(rules)
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *args):  # keep the terminal quiet
             pass
@@ -77,6 +99,11 @@ def make_handler(store):
             if url.path in STATIC_ROUTES:
                 file, ctype = STATIC_ROUTES[url.path]
                 return self._send(200, file.read_bytes(), ctype)
+            if url.path in user_icons:
+                file, ctype = user_icons[url.path]
+                return self._send(200, file.read_bytes(), ctype)
+            if url.path == "/api/config":
+                return self._json(public_config(rules))
             if url.path == "/api/sessions":
                 return self._json(store.list_sessions())
             if url.path == "/api/search":

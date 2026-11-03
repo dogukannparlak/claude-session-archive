@@ -3,7 +3,7 @@ import { $, esc, reEsc } from './dom.js';
 import { S } from './state.js';
 import { t } from './i18n.js';
 import { activeText, base, bucket, dur, fsz, range } from './format.js';
-import { SOURCE_KEYS, icon } from './icons.js';
+import { icon, sourceKeys, sourceLabel } from './icons.js';
 
 export function draw() {
   const q = $('#q').value.toLowerCase().trim(), folder = $('#fold').value, source = $('#srcf').value;
@@ -23,7 +23,7 @@ export function draw() {
     }
     const long = s.last - s.first > 86400 ? ' long' : '';
     html += `<a class="item${s.id === S.cur ? ' on' : ''}" href="#/${s.id}" data-id="${s.id}">`
-      + `<div class="t"><span class="ico" title="${esc(t('src.' + s.source))}">${icon(s.source)}</span>${esc(s.title || t('untitled'))}</div>`
+      + `<div class="t"><span class="ico" title="${esc(sourceLabel(s.source))}">${icon(s.source)}</span>${esc(s.title || t('untitled'))}</div>`
       + `<div class="s">${range(s)} · <b class="sp${long}">${dur(s.last - s.first)}</b>${activeText(s)}</div>`
       + `<div class="s">${esc(s.branch || '—')} · ${fsz(s.size)} · ${esc(base(s.cwd))} · ${t('messages', { n: s.n })}</div>${snippet}</a>`;
   }
@@ -41,8 +41,8 @@ export function buildFolders() {
 export function buildSources() {
   const counts = {};
   for (const s of S.all) counts[s.source] = (counts[s.source] || 0) + 1;
-  const options = SOURCE_KEYS.filter((k) => counts[k])
-    .map((k) => `<option value="${k}">${esc(t('src.' + k))} (${counts[k]})</option>`).join('');
+  const options = sourceKeys().filter((k) => counts[k])
+    .map((k) => `<option value="${esc(k)}">${esc(sourceLabel(k))} (${counts[k]})</option>`).join('');
   $('#srcf').innerHTML = `<option value="">${t('src.all')}</option>` + options;
 }
 

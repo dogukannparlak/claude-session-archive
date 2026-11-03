@@ -21,7 +21,7 @@ Requires Python 3.9+. There are no runtime or test dependencies.
 
 ```
 src/session_archive/
-  config.py       paths and tunables
+  config.py       settings: JSON config, .env, environment, flags
   parsing.py      reading .jsonl, text extraction, timestamps
   classify.py     "did the human write this?" logic
   sources.py      where a session started (icon key)
@@ -34,7 +34,7 @@ src/session_archive/
                   icons/ (brand logos, see NOTICE.md), favicon.svg
 tests/            unittest suite with synthetic fixtures
 scripts/          make_demo_data.py: synthetic sessions for screenshots
-docs/             architecture and the transcript format notes
+docs/             architecture, configuration reference and the transcript format notes
 ```
 
 See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for how the pieces fit.

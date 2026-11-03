@@ -11,6 +11,9 @@ Built-in safeguards:
 - The server binds to `127.0.0.1` only. There is deliberately no `--host` option.
 - Requests whose `Host` header is not `127.0.0.1` or `localhost` are rejected
   (DNS-rebinding protection).
+- Config files are read, never written. A custom icon named in the config is served only from a
+  list fixed at startup (`/icons/user/<key>.<ext>`), limited to svg/png/webp/jpg up to 256 KB;
+  `/api/config` never exposes file paths.
 - The API is read-only; the tool never writes to, renames or deletes transcripts. The only
   command that writes is `session-archive backup`, which copies transcripts to a folder you
   choose and never deletes anything.

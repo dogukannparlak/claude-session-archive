@@ -1,5 +1,7 @@
 """Synthetic transcripts. Never put real conversations in the test suite."""
+import contextlib
 import json
+import os
 import tempfile
 from pathlib import Path
 
@@ -58,3 +60,16 @@ def make_projects_dir():
     write_session(tmp.name, "-work-demo", SESSION_ID, main_session())
     write_session(tmp.name, "-work-demo", OTHER_ID, second_session())
     return tmp
+
+
+@contextlib.contextmanager
+def isolated_cwd():
+    """Run in an empty temp directory so a developer's own ./.env or ./session-archive.json
+    (both git-ignored) can never leak into a test. Yields the directory."""
+    old = os.getcwd()
+    with tempfile.TemporaryDirectory() as tmp:
+        os.chdir(tmp)
+        try:
+            yield tmp
+        finally:
+            os.chdir(old)

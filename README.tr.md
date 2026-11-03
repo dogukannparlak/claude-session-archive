@@ -27,6 +27,9 @@ ettirmeden okuyamazsınız. Session Archive bu boşluğu doldurur.
   "sen yazmadın" notu altında kapalı gelir.
 - **Her oturumun nereden başladığını gösteren ikon** ve kaynak filtresi:
 
+  Bunlar varsayılanlardır: kaynakları ekleyebilir, çıkarabilir ya da değiştirebilirsiniz
+  ([Yapılandırma](#yapılandırma)).
+
   | İkon | Kaynak | Nasıl tespit edilir |
   |---|---|---|
   | Claude logosu | Claude Code masaüstü uygulaması | `entrypoint: claude-desktop` |
@@ -69,6 +72,20 @@ pip install .
 session-archive
 ```
 
+### Yapılandırma
+
+Her şeyin varsayılanı vardır. Başka klasörler kullanmak, kaynak ikonlarını eklemek/çıkarmak ya da
+kendinizinkini tanımlamak (etiket, yerleşik ikon ya da kendi SVG/PNG'niz, `entrypoint` ve çalışma
+klasörü kuralları) için `.env` dosyası ve/veya `session-archive.json` kullanın:
+
+```bash
+cp .env.example .env                                  # port ve yollar
+session-archive print-config > session-archive.json   # yollar ve kaynak listesi
+```
+
+Öncelik: bayrak > ortam > `.env` > config dosyası > varsayılan. Örneklerle tam başvuru:
+[docs/CONFIGURATION.tr.md](docs/CONFIGURATION.tr.md).
+
 ### Seçenekler
 
 | Bayrak | Anlamı |
@@ -76,6 +93,8 @@ session-archive
 | `--port N` | Dinlenecek port (varsayılan `8765`) |
 | `--projects-dir YOL` | Kayıt klasörü; yedek klasörünü de eklemek için tekrarlayın. Varsayılan: `$CLAUDE_CONFIG_DIR/projects`, yoksa `~/.claude/projects` |
 | `--no-open` | Tarayıcıyı otomatik açma |
+| `--config YOL`, `--env-file YOL` | Kullanılacak config dosyası / `.env` ([Yapılandırma](#yapılandırma)) |
+| `print-config` (komut) | Tüm varsayılanları içeren tam bir config dosyası yazdır |
 | `--version` | Sürümü yazdır |
 
 ### Klavye

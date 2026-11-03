@@ -30,25 +30,35 @@ def default_app_index():
     return Path.home() / "Library" / "Application Support" / "Claude" / "claude-code-sessions"
 
 
+def default_app_indexes():
+    return [default_app_index()]
+
+
 def default_backup_dir():
     return Path.home() / "Documents" / "claude-session-backup" / "projects"
 
 
-def indexed_session_ids(index_root):
-    """Transcript ids of sessions that were *started* in the desktop app, per its session index."""
+def indexed_session_ids(index_roots):
+    """Transcript ids of sessions that were *started* in the desktop app, per its session index.
+
+    ``index_roots`` is one folder or a list of folders (some may not exist).
+    """
+    if isinstance(index_roots, (str, Path)):
+        index_roots = [index_roots]
     ids = set()
-    if not index_root or not Path(index_root).is_dir():
-        return ids
-    for path in Path(index_root).rglob("local_*.json"):
-        try:
-            with open(path, encoding="utf-8") as f:
-                entry = json.load(f)
-            cli_id = entry.get("cliSessionId")
-            adopted = entry.get("adoptedFromOtherSurface")
-        except (OSError, ValueError, AttributeError):
+    for root in index_roots or []:
+        if not root or not Path(root).is_dir():
             continue
-        if cli_id and not adopted:
-            ids.add(cli_id)
+        for path in Path(root).rglob("local_*.json"):
+            try:
+                with open(path, encoding="utf-8") as f:
+                    entry = json.load(f)
+                cli_id = entry.get("cliSessionId")
+                adopted = entry.get("adoptedFromOtherSurface")
+            except (OSError, ValueError, AttributeError):
+                continue
+            if cli_id and not adopted:
+                ids.add(cli_id)
     return ids
 
 
@@ -60,7 +70,7 @@ def entrypoint_of(path):
     return None
 
 
-def select_sessions(projects_dir, index_root=None, include_all=False):
+def select_sessions(projects_dir, index_root=None, include_all=False):  # index_root: folder or list
     """Transcript paths to back up."""
     projects_dir = Path(projects_dir)
     indexed = set() if include_all else indexed_session_ids(index_root)

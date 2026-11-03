@@ -31,6 +31,9 @@ First version (not published or tagged yet).
 - Theme button (follow system / light / dark), remembered per browser, no flash on load.
 - Favicon.
 - JSON export of a single session and a copy button for the `claude --resume` command.
+- Configuration: `.env` and a JSON config file (`session-archive print-config`); paths and the list
+  of sources (label, builtin icon or your own image, rules on entrypoint / working directory) can
+  be added, removed and reordered. See `docs/CONFIGURATION.md`.
 - `session-archive backup`: copy-only backup of desktop-app sessions (never deletes), so Claude
   Code's age-based cleanup cannot remove them; `--projects-dir` can be repeated to browse live
   and backed-up sessions together.

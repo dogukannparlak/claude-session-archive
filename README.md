@@ -105,6 +105,10 @@ session-archive backup --dest ~/safe      # choose the folder
 session-archive backup --all              # terminal sessions too
 ```
 
+Other flags: `--projects-dir` (where to read), `--app-index` (the desktop app's session index).
+The backup folder holds the **same private conversations** as `~/.claude`: keep it out of shared or
+synced-to-public locations and out of git.
+
 "App sessions" are records with `entrypoint: claude-desktop` plus sessions the app's own index lists
 as started there (sessions it merely *adopted* from the terminal or VS Code are skipped; use `--all`
 for those). Then browse live and backed-up sessions together (duplicates are merged, the bigger file

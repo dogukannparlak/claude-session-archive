@@ -30,7 +30,8 @@ src/session_archive/
   backup.py       copy-only backup of app sessions (never deletes)
   server.py       static files + read-only JSON API (localhost only)
   cli.py          command line
-  static/         index.html, app.css, js/*.js (ES modules, i18n in js/i18n.js)
+  static/         index.html, app.css, js/*.js (ES modules, i18n in js/i18n.js),
+                  icons/ (brand logos, see NOTICE.md), favicon.svg
 tests/            unittest suite with synthetic fixtures
 scripts/          make_demo_data.py: synthetic sessions for screenshots
 docs/             architecture and the transcript format notes
@@ -42,7 +43,8 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for how the pieces fit.
 
 1. **Never commit real transcripts**, screenshots of them, or anything from your own
    `~/.claude`. Tests use the synthetic data in `tests/fixtures.py`.
-2. **Keep it read-only and local.** No writing to transcripts, no network calls, no
+2. **Keep it read-only and local.** The viewer never writes to transcripts (the `backup` command
+   only *copies* them and never deletes), no network calls, no
    `--host 0.0.0.0` option. Changes that weaken the guarantees in [SECURITY.md](SECURITY.md)
    will not be merged.
 3. **Screenshots use synthetic data only** (`make demo`). Never screenshot your own sessions.

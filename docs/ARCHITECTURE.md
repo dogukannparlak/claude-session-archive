@@ -5,6 +5,7 @@
         │
         ▼  parsing.py   iter_records, text_of, strip_reminders, epoch
         ▼  classify.py  did the human write this user record?
+        ▼  sources.py   where did the session start? (icon key)
         ▼
   store.py (SessionStore)          transcript.py (build_transcript)
    - summaries (title, branch,      - one session → messages for the UI
@@ -14,7 +15,9 @@
         └──────────────┬───────────────────┘
                        ▼  server.py  (127.0.0.1 only, read-only JSON + static files)
                        ▼
-        static/ (index.html, app.css, js/*.js ES modules)
+        static/ (index.html, app.css, js/*.js ES modules, icons/*.svg, favicon.svg)
+
+  backup.py  (separate `backup` command: copies app sessions elsewhere; never deletes)
 ```
 
 ## Backend (`src/session_archive/`)
@@ -35,7 +38,7 @@
 
 | Endpoint | Returns |
 |---|---|
-| `GET /api/sessions` | Summaries, newest last-message first |
+| `GET /api/sessions` | Summaries (`title`, `cwd`, `branch`, `size`, `entrypoint`, `source`, `first`/`last`, `active`, `n`), newest last-message first |
 | `GET /api/session/<id>` | Summary + `messages` |
 | `GET /api/session/<id>?raw=1` | The raw records as a JSON array (the export button) |
 | `GET /api/search?q=…` | `[{id, snippet, count}]` (query ≥ 2 characters) |
@@ -53,7 +56,9 @@ sessions).
 
 Plain ES modules, no bundler: `main.js` (wiring) → `list.js` (sidebar), `chat.js`
 (conversation), `panel.js` (resize/collapse), `markdown.js` (tiny renderer), `format.js`,
-`i18n.js` (tr/en), `icons.js` (source icons), `dom.js`, `state.js`.
+`i18n.js` (tr/en), `icons.js` (source icons; brand logos are files in `static/icons/`, see
+[NOTICE.md](../NOTICE.md)), `theme.js` (auto/light/dark button), `dom.js`, `state.js`.
+`theme-init.js` is a classic script in `<head>` that applies the saved theme before first paint.
 
 Rules: every string from a transcript is escaped before it reaches `innerHTML`; user-visible
 text goes through `t()`; `localStorage` access is wrapped in try/catch.

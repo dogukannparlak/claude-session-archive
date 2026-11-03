@@ -104,6 +104,10 @@ session-archive backup --dest ~/guvenli   # klasörü seç
 session-archive backup --all              # terminal oturumları da
 ```
 
+Diğer bayraklar: `--projects-dir` (nereden okunacağı), `--app-index` (masaüstü uygulamasının oturum dizini).
+Yedek klasörü `~/.claude` ile **aynı özel konuşmaları** içerir: paylaşılan ya da herkese açık
+eşitlenen yerlerden ve git'ten uzak tutun.
+
 "Uygulama oturumları", `entrypoint: claude-desktop` olan kayıtlar ve uygulamanın kendi dizininde
 orada başlatılmış görünen oturumlardır (uygulamanın terminalden ya da VS Code'dan yalnızca
 *devraldığı* oturumlar atlanır; onlar için `--all` kullanın). Canlı ve yedeklenmiş oturumları

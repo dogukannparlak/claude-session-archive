@@ -48,6 +48,8 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for how the pieces fit.
    `--host 0.0.0.0` option. Changes that weaken the guarantees in [SECURITY.md](SECURITY.md)
    will not be merged.
 3. **Screenshots use synthetic data only** (`make demo`). Never screenshot your own sessions.
+   For sharp (2x) images open `http://127.0.0.1:8770/?lang=en&theme=dark#/<id>`; `?lang=` and
+   `?theme=` override the language and theme for that page load only.
 4. **Add a test** for backend behaviour changes. Run `make test` and `make lint`.
 5. **User-visible text goes through `js/i18n.js`.** Add the key to both `tr` and `en`.
    Backend code returns stable *keys* (e.g. `skill_context`), never display strings.

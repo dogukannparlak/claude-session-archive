@@ -11,7 +11,11 @@ const ICONS = {
   moon: `<svg ${A}><path d="M13.2 9.6A5.7 5.7 0 0 1 6.4 2.8a5.7 5.7 0 1 0 6.8 6.8z"/></svg>`,
 };
 
-const current = () => { const v = store.get('theme'); return ORDER.includes(v) ? v : 'auto'; };
+// ?theme=light|dark overrides for this page load only; otherwise the saved choice.
+const current = () => {
+  const v = new URLSearchParams(location.search).get('theme') || store.get('theme');
+  return ORDER.includes(v) ? v : 'auto';
+};
 
 function apply(mode) {
   if (mode === 'auto') document.documentElement.removeAttribute('data-theme');

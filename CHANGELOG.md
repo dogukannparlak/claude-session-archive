@@ -37,7 +37,8 @@ First version (not published or tagged yet).
 - `session-archive backup`: copy-only backup of desktop-app sessions (never deletes), so Claude
   Code's age-based cleanup cannot remove them; `--projects-dir` can be repeated to browse live
   and backed-up sessions together.
-- `scripts/make_demo_data.py` and `make demo`: synthetic data for screenshots.
+- `scripts/make_demo_data.py` and `make demo`: synthetic data for screenshots; `?lang=` and `?theme=`
+  URL parameters override language and theme for one page load. README screenshots are 2x.
 - Security: loopback-only server, Host-header check (DNS rebinding), strict CSP,
   whitelisted static files, validated session ids.
 - Unit tests (standard library only), CI workflow, contributor and security documents.

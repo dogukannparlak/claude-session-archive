@@ -80,7 +80,10 @@ const DICT = {
   },
 };
 
+// ?lang=en|tr overrides for this page load only (handy for screenshots and sharing a link).
 export const lang = (() => {
+  const asked = new URLSearchParams(location.search).get('lang');
+  if (asked && DICT[asked]) return asked;
   const saved = store.get('lang');
   if (saved && DICT[saved]) return saved;
   return (navigator.language || 'en').toLowerCase().startsWith('tr') ? 'tr' : 'en';
